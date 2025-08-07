@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroBookLog</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a12;
+            --bg-secondary: #1a1a2a;
+            --neon-cyan: #0ff;
+            --neon-pink: #f0f;
+            --neon-green: #0f0;
+            --text-glow: rgba(0, 255, 255, 0.8);
+            --acid-yellow: #ff0;
+            --acid-purple: #90f;
+        }
+        
+        body {
+            background: var(--bg-primary);
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(100, 0, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 20%);
+        }
+        
+        header {
+            border-bottom: 2px solid var(--neon-cyan);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            text-shadow: 0 0 5px var(--text-glow);
+        }
+        
+        h1 {
+            color: var(--neon-cyan);
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+        }
+        
+        .post {
+            background: var(--bg-secondary);
+            border: 1px solid var(--acid-purple);
+            border-radius: 4px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 
+                0 0 10px var(--neon-pink),
+                inset 0 0 5px rgba(240, 0, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .post:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 0 15px var(--neon-pink),
+                0 0 20px var(--acid-purple),
+                inset 0 0 10px rgba(240, 0, 255, 0.3);
+        }
+        
+        h2 {
+            color: var(--acid-yellow);
+            border-left: 3px solid var(--neon-green);
+            padding-left: 10px;
+        }
+        
+        .meta {
+            color: var(--neon-pink);
+            font-size: 0.9rem;
+            display: flex;
+            gap: 1rem;
+            margin: 0.5rem 0;
+        }
+        
+        .content {
+            margin-top: 1rem;
+            color: #c0c0ff;
+        }
+        
+        textarea, input {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            background: rgba(10, 15, 30, 0.7);
+            border: 1px solid var(--acid-purple);
+            color: var(--neon-cyan);
+            font-family: inherit;
+        }
+        
+        button {
+            background: linear-gradient(45deg, var(--acid-purple), var(--neon-pink));
+            color: black;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            box-shadow: 0 0 15px var(--neon-pink);
+            transform: scale(1.05);
+        }
+        
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--neon-pink);
+            font-size: 0.9rem;
+            text-shadow: 0 0 3px var(--text-glow);
+        }
+        
+        ::selection {
+            background: var(--neon-pink);
+            color: black;
+        }
+        
+        /* Effetto linea di scansione */
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: rgba(0, 255, 255, 0.5);
+            box-shadow: 0 0 10px 2px var(--neon-cyan);
+            animation: scan 4s linear infinite;
+            z-index: 1000;
+            pointer-events: none;
+        }
+        
+        @keyframes scan {
+            0% { top: 0; }
+            50% { top: 100%; }
+            100% { top: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scan-line"></div>
+    
+    <header>
+        <h1>NEURO-BOOK-LOG</h1>
+        <p>// Archivio neurale di riflessioni letterarie</p>
+    </header>
+    
+    <main>
+        <section id="posts">
+            <!-- I post esistenti verranno aggiunti qui dinamicamente -->
+        </section>
+        
+        <section id="new-post">
+            <h2>AGGIUNGI NUOVA RIFLESSIONE</h2>
+            <input type="text" id="book-title" placeholder="Titolo libro">
+            <input type="text" id="book-author" placeholder="Autore">
+            <textarea id="reflection" rows="6" placeholder="Riflessioni..."></textarea>
+            <button id="save-btn">SALVA NEL DATABASE</button>
+        </section>
+    </main>
+    
+    <footer>
+        <p>∆ SISTEMA DI ARCHIVIAZIONE NEURALE v1.23 ∆</p>
+    </footer>
+
+    <script>
+        // Funzionalità base per salvare nel localStorage
+        const postsContainer = document.getElementById('posts');
+        const saveBtn = document.getElementById('save-btn');
+        
+        function savePost() {
+            const title = document.getElementById('book-title').value;
+            const author = document.getElementById('book-author').value;
+            const content = document.getElementById('reflection').value;
+            
+            if(!title || !content) {
+                alert("Inserisci almeno titolo e contenuto!");
+                return;
+            }
+            
+            const post = {
+                id: Date.now(),
+                title,
+                author,
+                content,
+                date: new Date().toLocaleDateString()
+            };
+            
+            // Salva nel localStorage
+            const existingPosts = JSON.parse(localStorage.getItem('posts')) || [];
+            existingPosts.push(post);
+            localStorage.setItem('posts', JSON.stringify(existingPosts));
+            
+            // Aggiorna la visualizzazione
+            renderPosts();
+            
+            // Reset form
+            document.getElementById('book-title').value = '';
+            document.getElementById('book-author').value = '';
+            document.getElementById('reflection').value = '';
+        }
+        
+        function renderPosts() {
+            const posts = JSON.parse(localStorage.getItem('posts')) || [];
+            postsContainer.innerHTML = '';
+            
+            posts.reverse().forEach(post => {
+                const postEl = document.createElement('div');
+                postEl.className = 'post';
+                postEl.innerHTML = `
+                    <h2>${post.title}</h2>
+                    <div class="meta">
+                        <span>∆ ${post.author || 'Autore sconosciuto'}</span>
+                        <span>${post.date}</span>
+                    </div>
+                    <div class="content">${post.content.replace(/\n/g, '<br>')}</div>
+                `;
+                postsContainer.appendChild(postEl);
+            });
+        }
+        
+        saveBtn.addEventListener('click', savePost);
+        
+        // Carica i post all'avvio
+        renderPosts();
+    </script>
+</body>
+</html>
