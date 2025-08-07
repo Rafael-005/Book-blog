@@ -3,227 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Notes</title>
+    <title>NeuroBook Archive</title>
     <style>
         :root {
-            --bg-primary: #000;
-            --bg-secondary: #1a0a2a;
-            --acid-pink: #ff00ff;
-            --acid-green: #00ff00;
-            --acid-blue: #00ffff;
-            --acid-yellow: #ffff00;
-            --acid-purple: #9d00ff;
+            --bg-primary: #0a0a12;
+            --bg-secondary: #161622;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a0a0b0;
+            --accent: #ff4d5a;
+            --border: rgba(255,255,255,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
         body {
             background: var(--bg-primary);
-            color: #fff;
-            font-family: 'Courier New', monospace;
+            color: var(--text-primary);
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.7;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 2rem;
-            background-image: 
-                radial-gradient(circle at 90% 10%, rgba(157, 0, 255, 0.2) 0%, transparent 30%),
-                radial-gradient(circle at 10% 90%, rgba(0, 255, 0, 0.2) 0%, transparent 30%),
-                repeating-linear-gradient(
-                    45deg,
-                    rgba(255, 0, 255, 0.05) 0px,
-                    rgba(255, 0, 255, 0.05) 1px,
-                    transparent 1px,
-                    transparent 11px
-                ),
-                repeating-linear-gradient(
-                    -45deg,
-                    rgba(0, 255, 255, 0.05) 0px,
-                    rgba(0, 255, 255, 0.05) 1px,
-                    transparent 1px,
-                    transparent 11px
-                );
+            padding: 2rem 1.5rem;
+            -webkit-font-smoothing: antialiased;
         }
         
         header {
-            border-bottom: 3px dashed var(--acid-green);
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1.5rem;
+            margin-bottom: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
         }
         
         h1 {
-            color: var(--acid-yellow);
-            font-size: 2.8rem;
-            text-shadow: 0 0 10px var(--acid-yellow);
-            letter-spacing: -1px;
-            margin-bottom: 0.5rem;
+            font-weight: 400;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
+        }
+        
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--text-primary);
         }
         
         .post {
-            background: rgba(20, 5, 35, 0.8);
-            border: 2px solid var(--acid-purple);
-            border-radius: 0;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 
-                0 0 15px var(--acid-pink),
-                inset 0 0 10px rgba(157, 0, 255, 0.3);
+            margin-bottom: 3.5rem;
             position: relative;
-            overflow: hidden;
         }
         
-        .post::before {
+        .post::after {
             content: "";
             position: absolute;
-            top: 0;
+            bottom: -1.5rem;
             left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--acid-green), var(--acid-blue), var(--acid-pink));
+            width: 40px;
+            height: 1px;
+            background: var(--accent);
         }
         
-        h2 {
-            color: var(--acid-blue);
-            margin-top: 0;
-            border-bottom: 1px solid var(--acid-pink);
-            padding-bottom: 0.5rem;
-            text-transform: uppercase;
+        .post-title {
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
         }
         
         .meta {
-            color: var(--acid-pink);
-            font-size: 0.9rem;
             display: flex;
-            gap: 1.5rem;
-            margin: 0.5rem 0;
-            font-weight: bold;
+            gap: 1.2rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 1.2rem;
         }
         
         .content {
-            margin: 1.5rem 0;
-            color: #e0e0ff;
+            margin: 1.2rem 0;
+            color: var(--text-primary);
             line-height: 1.8;
-            white-space: pre-wrap;
+        }
+        
+        .book-cover {
+            width: 120px;
+            height: 180px;
+            background: var(--bg-secondary);
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            border: 1px solid var(--border);
         }
         
         textarea, input {
             width: 100%;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            background: rgba(0, 0, 0, 0.7);
-            border: 2px solid var(--acid-green);
-            color: var(--acid-blue);
+            padding: 0.9rem;
+            margin-bottom: 1.2rem;
+            background: rgba(20, 20, 30, 0.6);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
             font-family: inherit;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
         
         input {
-            font-weight: bold;
+            font-weight: 400;
         }
         
         textarea {
             min-height: 150px;
+            resize: vertical;
         }
         
         button {
-            background: linear-gradient(45deg, var(--acid-purple), var(--acid-pink));
-            color: black;
-            border: none;
-            padding: 1rem 2rem;
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 0.8rem 1.8rem;
             font-family: inherit;
-            font-weight: bold;
+            font-size: 0.9rem;
             cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 1.1rem;
-            margin-right: 1rem;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
+            margin-right: 0.8rem;
+            margin-top: 0.5rem;
         }
         
         button:hover {
-            box-shadow: 0 0 20px var(--acid-pink);
-            transform: translateY(-2px);
+            background: rgba(255, 77, 90, 0.1);
         }
         
         .btn-edit {
-            background: linear-gradient(45deg, var(--acid-blue), var(--acid-green));
-            color: black;
+            border-color: #4da6ff;
+            color: #4da6ff;
         }
         
-        .btn-cancel {
-            background: linear-gradient(45deg, #555, #333);
-            color: #ccc;
+        .btn-edit:hover {
+            background: rgba(77, 166, 255, 0.1);
         }
         
         .actions {
-            margin-top: 1.5rem;
+            margin-top: 1.2rem;
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
         }
         
         footer {
-            margin-top: 3rem;
-            text-align: center;
-            color: var(--acid-pink);
-            font-size: 1rem;
-            border-top: 3px dashed var(--acid-green);
+            margin-top: 5rem;
             padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-align: center;
         }
         
-        ::selection {
-            background: var(--acid-pink);
-            color: white;
-        }
-        
-        /* Effetti acidi */
-        .acid-stripe {
-            height: 5px;
-            background: linear-gradient(90deg, 
-                var(--acid-pink), 
-                var(--acid-blue), 
-                var(--acid-green), 
-                var(--acid-yellow));
-            margin: 2rem 0;
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav {
+                margin-top: 1rem;
+            }
+            
+            nav a {
+                margin-left: 0;
+                margin-right: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="acid-stripe"></div>
-    
     <header>
-        <h1>BOOK NOTES</h1>
-        <p style="color: var(--acid-green);">/// Registro digitale di esperienze letterarie ///</p>
+        <div>
+            <h1>NEUROBOOK ARCHIVE</h1>
+            <div class="subtitle">Archivio neurale di riflessioni letterarie</div>
+        </div>
+        <nav>
+            <a href="#">Archivio</a>
+            <a href="#">Progetto</a>
+            <a href="#">Contatti</a>
+        </nav>
     </header>
     
     <main>
         <section id="posts">
-            <!-- I post esistenti verranno aggiunti qui dinamicamente -->
+            <!-- Dynamic posts will appear here -->
         </section>
         
-        <section id="new-post">
-            <h2 style="color: var(--acid-pink);">NUOVA ANNOTAZIONE</h2>
-            <input type="text" id="book-title" placeholder="TITOLO LIBRO">
-            <input type="text" id="book-author" placeholder="AUTORE">
-            <textarea id="reflection" placeholder="PENSIERI / NOTE / CITAZIONI..."></textarea>
+        <section id="new-post" style="margin-top: 4rem;">
+            <h2 style="font-weight: 400; margin-bottom: 1.5rem;">NUOVA ANNOTAZIONE</h2>
+            <input type="text" id="book-title" placeholder="Titolo libro">
+            <input type="text" id="book-author" placeholder="Autore">
+            <textarea id="reflection" placeholder="Riflessioni / Appunti / Citazioni..."></textarea>
             <button id="save-btn">SALVA</button>
         </section>
     </main>
     
     <footer>
-        <p style="color: var(--acid-blue);">▲ SISTEMA DI ARCHIVIAZIONE v2.0 ▲</p>
+        <p>NEUROBOOK ARCHIVE v2.1 — 2025</p>
     </footer>
 
     <script>
-        // Funzionalità avanzate per gestire i post
+        // Enhanced functionality with editing
         const postsContainer = document.getElementById('posts');
         const saveBtn = document.getElementById('save-btn');
         let editingPostId = null;
         
-        // Salva nuovo post o modifica esistente
         function savePost() {
             const title = document.getElementById('book-title').value;
             const author = document.getElementById('book-author').value;
             const content = document.getElementById('reflection').value;
             
             if(!title || !content) {
-                alert("Titolo e contenuto sono obbligatori!");
+                alert("Titolo e contenuto sono obbligatori");
                 return;
             }
             
@@ -234,7 +245,7 @@
                 content,
                 date: new Date().toLocaleDateString('it-IT', {
                     day: '2-digit',
-                    month: '2-digit',
+                    month: 'long',
                     year: 'numeric'
                 })
             };
@@ -242,13 +253,9 @@
             const existingPosts = JSON.parse(localStorage.getItem('posts')) || [];
             
             if(editingPostId) {
-                // Modifica post esistente
                 const index = existingPosts.findIndex(p => p.id === editingPostId);
-                if(index !== -1) {
-                    existingPosts[index] = post;
-                }
+                if(index !== -1) existingPosts[index] = post;
             } else {
-                // Nuovo post
                 existingPosts.push(post);
             }
             
@@ -257,7 +264,6 @@
             resetForm();
         }
         
-        // Modifica un post esistente
         function editPost(postId) {
             const posts = JSON.parse(localStorage.getItem('posts')) || [];
             const post = posts.find(p => p.id === postId);
@@ -267,13 +273,10 @@
                 document.getElementById('book-author').value = post.author || '';
                 document.getElementById('reflection').value = post.content;
                 editingPostId = postId;
-                
-                // Scroll al form
-                document.getElementById('new-post').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('new-post').scrollIntoView({behavior: 'smooth'});
             }
         }
         
-        // Elimina un post
         function deletePost(postId) {
             if(confirm("Eliminare questa annotazione?")) {
                 const posts = JSON.parse(localStorage.getItem('posts')) || [];
@@ -283,7 +286,6 @@
             }
         }
         
-        // Resetta il form
         function resetForm() {
             document.getElementById('book-title').value = '';
             document.getElementById('book-author').value = '';
@@ -291,7 +293,6 @@
             editingPostId = null;
         }
         
-        // Visualizza i post
         function renderPosts() {
             const posts = JSON.parse(localStorage.getItem('posts')) || [];
             postsContainer.innerHTML = '';
@@ -300,15 +301,16 @@
                 const postEl = document.createElement('div');
                 postEl.className = 'post';
                 postEl.innerHTML = `
-                    <h2>${post.title}</h2>
+                    <div class="post-title">${post.title}</div>
                     <div class="meta">
-                        <span>▲ ${post.author || 'Autore sconosciuto'}</span>
+                        <span>${post.author || 'Autore sconosciuto'}</span>
                         <span>${post.date}</span>
                     </div>
+                    <div class="book-cover">COPERTINA</div>
                     <div class="content">${post.content.replace(/\n/g, '<br>')}</div>
                     <div class="actions">
                         <button class="btn-edit" onclick="editPost(${post.id})">MODIFICA</button>
-                        <button class="btn-cancel" onclick="deletePost(${post.id})">ELIMINA</button>
+                        <button onclick="deletePost(${post.id})">ELIMINA</button>
                     </div>
                 `;
                 postsContainer.appendChild(postEl);
@@ -316,8 +318,6 @@
         }
         
         saveBtn.addEventListener('click', savePost);
-        
-        // Carica i post all'avvio
         renderPosts();
     </script>
 </body>
